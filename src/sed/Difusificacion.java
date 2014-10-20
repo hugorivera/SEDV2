@@ -14,26 +14,29 @@ import java.io.IOException;
 public class Difusificacion 
 {
     File salida;
+    DataOutputStream dos;
 
-    public Difusificacion(File salida) 
+    public Difusificacion(File salida) throws FileNotFoundException 
     {
         this.salida = salida;
+        FileOutputStream fos = new FileOutputStream(salida);   
+        dos = new DataOutputStream(fos);
     }
     
     public void difusificar(ModeloDifuso md,float x) throws FileNotFoundException, IOException
     {
         float[] valores = new float[5];
-        FileOutputStream fos = new FileOutputStream(salida);
-        DataOutputStream dos = new DataOutputStream(fos);
-        
         for(int i = 0; i < 5; i++) //Recorrer cada etiqueta del modelo
             {
                 //Evaluar para cada etiqueta
                 valores[i] = md.evalua(i,x);
                 
                 dos.writeChars(md.nombre());
+                System.out.print(md.nombre()+"\t");                
                 dos.writeChars(md.nombreEtiqueta(i));
+                System.out.print(md.nombreEtiqueta(i)+"\t");
                 dos.writeFloat(valores[i]);
+                System.out.print(valores[i]+"\n");
             }
     }
     

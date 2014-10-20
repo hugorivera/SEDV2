@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package ppal;
 
@@ -47,6 +42,10 @@ public class SistemaExpertoDifuso {
             {
                 ModeloDifuso m = md.buscarModelo(argumentos[1]);
                 dif.difusificar(m, Float.parseFloat(argumentos[2]));
+            }
+            if(linea.startsWith("Inferir"))
+            {
+                System.out.println("Inferencia MAX-MIN");
             }
             else
             {

@@ -218,6 +218,7 @@ public class ModelosDifusos {
 
     public ModeloDifuso buscarModelo(String string) throws FileNotFoundException, IOException 
     {
+        System.out.println("Buscando: "+string);
         long ap_actual,ap_final;
         RandomAccessFile archi=new RandomAccessFile("indice", "r");
         modelo:
@@ -226,20 +227,29 @@ public class ModelosDifusos {
             int llave = archi.readInt();
             long posicion = archi.readLong();
             RandomAccessFile archim=new RandomAccessFile("modelos_difusos","rw");
+            archim.seek(posicion);
             archim.readInt();            
             String temp = "";
             for (int i = 0; i < string.length(); i++) 
             {
                 if(archim.readChar() != string.charAt(i))
                 {
+                    System.out.println("Caracter distinto "+string.charAt(i));
+                    for (int j = 0; j < 20 - i; i++) 
+                    {
+                        archim.readChar();
+                    }
                     archim.close();
                     continue modelo;
                 }                
             }
+            System.out.println("Modelo encontrado: "+string);
+            archi.close();
             return new ModeloDifuso(archim,posicion);
             
         }
         archi.close();
+        System.out.println("Modelo no encontrado: "+string);
         return null;
     }
  }
