@@ -20,6 +20,7 @@ public class Inferencia {
             max[i] = min;
             ma.insertarSalida(ma.consecuentes.get(0),r[r.length-1],min);
         }
+        
+        ma.imprimir();
     }
-    
 }
