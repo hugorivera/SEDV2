@@ -46,7 +46,10 @@ public class SistemaExpertoDifuso {
             {
                 System.out.println("Difusificación de "+argumentos[1]);
                 ModeloDifuso m = md.buscarModelo(argumentos[1]);
-                dif.difusificar(m, Float.parseFloat(argumentos[2]));
+                if(m != null)
+                    dif.difusificar(m, Float.parseFloat(argumentos[2]));
+                else
+                    System.out.println("");
             }
             else
             if(linea.startsWith("Inferir"))
