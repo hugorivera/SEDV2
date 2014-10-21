@@ -232,10 +232,12 @@ public class ModelosDifusos {
             String temp = "";
             for (int i = 0; i < string.length(); i++) 
             {
-                if(archim.readChar() != string.charAt(i))
+                char readChar = archim.readChar();
+                temp += readChar;
+                if(readChar != string.charAt(i))
                 {
-                    System.out.println("Caracter distinto "+string.charAt(i));
-                    for (int j = 0; j < 20 - i; i++) 
+                    System.out.println("Caracter distinto:"+string.charAt(i)+"("+temp+")");
+                    for (int j = 0; j < 20 - i; j++) 
                     {
                         archim.readChar();
                     }
@@ -249,7 +251,7 @@ public class ModelosDifusos {
             
         }
         archi.close();
-        System.out.println("Modelo no encontrado: "+string);
+        System.out.println("Modelo no encontrado: "+string+"\nVerifique que escribió bien el nombre o si la variable existe(ver modelos)");
         return null;
     }
  }

@@ -58,9 +58,10 @@ public class SistemaExpertoDifuso {
             else
             if(linea.startsWith("Desdifusificar"))
             {
-                System.out.println("Desdifusificando");
+                System.out.println("Desdifusificando "+argumentos[1]);
                 ModeloDifuso m = md.buscarModelo(argumentos[1]);
-                dif.difusificar(m, Float.parseFloat(argumentos[2]));
+                float resultado = des.desdifusificarPorCentroide(m);
+                System.out.println("Resultado:\t"+resultado);
             }
             else
             {
