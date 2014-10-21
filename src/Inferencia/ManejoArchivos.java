@@ -166,4 +166,14 @@ public class ManejoArchivos {
         return 0;
     }
     
+    public void imprimir() throws IOException{
+        salida.seek(0);
+        while(salida.getFilePointer()<salida.length()){
+            String c1 = leeUno(tamEnc, salida);
+            String e1 = leeUno(tamReg, salida);
+            float v1 = salida.readFloat();
+            System.out.println(c1+" "+e1+" "+v1);
+        }
+    }
+    
 }
