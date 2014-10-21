@@ -166,7 +166,8 @@ public class ManejoArchivos {
         return 0;
     }
     
-    public void imprimir() throws IOException{
+    public void imprimir() throws IOException{ 
+        //Comentario;
         salida.seek(0);
         while(salida.getFilePointer()<salida.length()){
             String c1 = leeUno(tamEnc, salida);
