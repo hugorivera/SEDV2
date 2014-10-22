@@ -41,62 +41,116 @@ public class Base {
 
         int n, aux;
         long pos;
-        
+
         int total_ant = 0, total_con = 0;
         encabezado.seek(0);
         total_ant = encabezado.readInt();
         encabezado.seek((5 * 40) + 4);//para 5 variables
-        
+
         total_con = encabezado.readInt();
         StringBuffer buffer = null;
         System.out.println("Reglas");
         archi.seek(archi.length());
         System.out.println(archi.length());
+
+        String dominio[] = new String[]{"nada", "regular", "mucho"};
+        String lenguaje[] = new String[]{"nada", "regular", "mucho"};
+        String apoyo[] = new String[]{"nada", "regular", "mucho"};
+        String equipo[] = new String[]{"nada", "regular", "mucho"};
+        String personal[] = new String[]{"informal", "casual", "formal"};
+                
+        AutoConsecuente ac = new AutoConsecuente();
+        ac.agregaPositivas("mucho", "formal","casual","regular");
+        ac.agregaNegativas("nada", "regular", "informal");
         
-        System.out.println("Escribre '#' si no quieres escribir antecedente");
-        
-        Scanner entrada = new Scanner(System.in);
-
-        do {
-            pos = archi.length();
-            c++;
-            archi.writeInt(c);
-            aux = 5 - total_ant;
-            for (int i = 0; i < total_ant; i++) {
-
-                System.out.println("Antecedente");
-                antecedente1 = entrada.next();
-                buffer = new StringBuffer(antecedente1);
-                buffer.setLength(15);
-                archi.writeChars(buffer.toString());
+        for (int x = 0; x < dominio.length; x++) {
+            for (int l = 0; l < lenguaje.length; l++) {
+                for (int i = 0; i < apoyo.length; i++) {
+                    for (int k = 0; k < equipo.length; k++) {
+                        for (int j = 0; j < personal.length; j++) {
+                            pos = archi.length();
+                            c++;
+                            archi.writeInt(c);
+                            antecedente1 = dominio[x];
+                            buffer = new StringBuffer(antecedente1);
+                            buffer.setLength(15);
+                            archi.writeChars(buffer.toString());
+                            antecedente1 = lenguaje[l];
+                            buffer = new StringBuffer(antecedente1);
+                            buffer.setLength(15);
+                            archi.writeChars(buffer.toString());
+                            antecedente1 = apoyo[i];
+                            buffer = new StringBuffer(antecedente1);
+                            buffer.setLength(15);
+                            archi.writeChars(buffer.toString());
+                            antecedente1 = equipo[k];
+                            buffer = new StringBuffer(antecedente1);
+                            buffer.setLength(15);
+                            archi.writeChars(buffer.toString());
+                            antecedente1 = personal[j];
+                            buffer = new StringBuffer(antecedente1);
+                            buffer.setLength(15);
+                            archi.writeChars(buffer.toString());
+                            //System.out.println("consecuente");
+                            consecuente1 = ac.comparacion(dominio[x], lenguaje[l], apoyo[i], equipo[k], personal[j]);
+                            buffer = new StringBuffer(consecuente1);
+                            buffer.setLength(15);
+                            archi.writeChars(buffer.toString());
+                            consecuente1 = "";
+                            buffer = new StringBuffer(consecuente1);
+                            buffer.setLength(15);
+                            archi.writeChars(buffer.toString());
+                            leer_secuencial_reglas(pos);
+                        }
+                    }
+                }
             }
+        }
 
-            for (int i = 0; i < aux; i++) {
-                antecedente1 = "";
-                buffer = new StringBuffer(antecedente1);
-                buffer.setLength(15);
-                archi.writeChars(buffer.toString());
-            }
-            aux = 2 - total_con;
-            for (int i = 0; i < total_con; i++) {
+        //System.out.println("Escribre '#' si no quieres escribir antecedente");
 
-                System.out.println("consecuente");
-                consecuente1 = entrada.next();
-                buffer = new StringBuffer(consecuente1);
-                buffer.setLength(15);
-                archi.writeChars(buffer.toString());
-            }
-            for (int i = 0; i < aux; i++) {
-                consecuente1 = "";
-                buffer = new StringBuffer(consecuente1);
-                buffer.setLength(15);
-                archi.writeChars(buffer.toString());
-            }
+        //Scanner entrada = new Scanner(System.in);
 
-            leer_secuencial_reglas(pos);
-            System.out.println("¿Otro? Si=1, No=0");
-            n = entrada.nextInt();
-        } while (n == 1);
+//        do {
+//            pos = archi.length();
+//            c++;
+//            archi.writeInt(c);
+//            aux = 5 - total_ant;
+//            for (int i = 0; i < total_ant; i++) {
+//
+//                System.out.println("Antecedente");
+//                antecedente1 = entrada.next();
+//                buffer = new StringBuffer(antecedente1);
+//                buffer.setLength(15);
+//                archi.writeChars(buffer.toString());
+//            }
+//
+//            for (int i = 0; i < aux; i++) {
+//                antecedente1 = "";
+//                buffer = new StringBuffer(antecedente1);
+//                buffer.setLength(15);
+//                archi.writeChars(buffer.toString());
+//            }
+//            aux = 2 - total_con;
+//            for (int i = 0; i < total_con; i++) {
+//
+//                System.out.println("consecuente");
+//                consecuente1 = entrada.next();
+//                buffer = new StringBuffer(consecuente1);
+//                buffer.setLength(15);
+//                archi.writeChars(buffer.toString());
+//            }
+//            for (int i = 0; i < aux; i++) {
+//                consecuente1 = "";
+//                buffer = new StringBuffer(consecuente1);
+//                buffer.setLength(15);
+//                archi.writeChars(buffer.toString());
+//            }
+//
+//            leer_secuencial_reglas(pos);
+//            System.out.println("¿Otro? Si=1, No=0");
+//            n = entrada.nextInt();
+//        } while (n == 1);
         //archi.close();
     }
 
