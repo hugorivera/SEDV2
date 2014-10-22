@@ -30,7 +30,7 @@ public class Desdifusificador
                 sumaDePonderaciones = 0, //Sumatorias de grados de pertenencia
                 gradoPertenencia = 0;     //Grado de pertenencia de X
         float[] valores = new float[5];
-        
+        System.out.println("Xi\t\tG(Xi)\t\tSum Xi * G(Xi)\t\tSum G(Xi)");
         //Generar valores desde el inicio del universo del modelo hasta el final
         while(x < md.fin())            
         {            
@@ -40,26 +40,41 @@ public class Desdifusificador
                 valores[i] = md.evalua(i,x);
                 //Recortar 
                 valores[i] = ajuste(md,i,valores[i]);
+                //System.out.println("i"+valores[i]);
             }
             //Maximizar
             Arrays.sort(valores);
             //El valor máximo está en el último lugar del arreglo
             gradoPertenencia = valores[4];
+//            System.out.println("-"+valores[0]);
+//            System.out.println("+"+valores[1]);
+//            System.out.println("/"+valores[2]);
+//            System.out.println("*"+valores[3]);
+//            System.out.println("$"+valores[4]);
             
             sumaDeMomentos += x * gradoPertenencia;
             sumaDePonderaciones += gradoPertenencia;            
+            System.out.println(x +"\t\t"+ gradoPertenencia +"\t\t"+sumaDeMomentos+"\t\t"+sumaDePonderaciones);
             x += delta; //Generar siguiente X
         }
         
         //Calcular centro de gravedad
-        centroide = sumaDeMomentos / sumaDePonderaciones;       
-        
+        //try
+        //{
+            centroide = sumaDeMomentos / sumaDePonderaciones;       
+        //}
+        //catch()
+        if(Float.isNaN(centroide))
+        {
+            System.out.println("No hay valores para el modelo dado");
+            centroide = 0;
+        }
         return centroide;
     }
 
     private float ajuste(ModeloDifuso md, int i, float f) throws FileNotFoundException, IOException 
     {
-        float x = 0;
+        float x = f;
         FileInputStream fis = new FileInputStream(entradas);
         DataInputStream dis = new DataInputStream(fis);
         while(dis.available() != 0)
@@ -71,9 +86,11 @@ public class Desdifusificador
             String nombreEtiqueta = "";            
             for(int k = 0; k < 15; k ++)
                 nombreEtiqueta += dis.readChar();
+            //System.out.println(nombreEtiqueta+"\t"+nombreMod);
             if(nombreMod.equals(md.nombre()) && nombreEtiqueta.equals(md.nombreEtiqueta(i)))
             {
                 float temp = dis.readFloat();
+              //  System.out.println("Recortado a "+temp);
                 return (x > temp)?temp:x;
             }
             else
@@ -81,8 +98,8 @@ public class Desdifusificador
                 dis.readFloat();
             }
         }
-        dis.reset();
-        fis.reset();
+        //dis.reset();
+        //fis.reset();
         dis.close();
         fis.close();
         return x;

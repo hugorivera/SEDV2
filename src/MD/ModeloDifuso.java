@@ -25,59 +25,20 @@ long posicion;
     
 
     public float inicio() throws IOException {
-        
         raf.seek(posicion);
         raf.readInt();
-        for (int j = 0; j < 20; j++) 
-        {
+        for (int j = 0; j < 20; j++)
             raf.readChar();
-        }
         return (float)raf.readDouble();
     }
 
     public float fin() throws IOException {
-        int i = 5;
         raf.seek(posicion);
         raf.readInt();
         for (int j = 0; j < 20; j++) 
-        {
             raf.readChar();
-        }
         raf.readDouble();
-        raf.readDouble();
-        for (int j = 0; j < i; j++) 
-        {
-            for (int k = 0; k < 15; k++) 
-            {
-                raf.readChar();
-            }
-            for (int k = 0; k < 5; k++) 
-            {
-                raf.readChar();
-            }
-            raf.readDouble();
-            raf.readDouble();
-            raf.readDouble();
-            raf.readDouble();
-            raf.readDouble();
-            raf.readDouble();
-        }
-        
-        for (int k = 0; k < 15; k++) 
-            {
-                raf.readChar();
-            }
-        String tipo = "";
-            for (int k = 0; k < 5; k++) 
-            {
-                tipo += raf.readChar();
-            }
-            float punto1 = (float)raf.readDouble();
-            float punto2 = (float)raf.readDouble();
-            float punto3 = (float)raf.readDouble();
-            float punto4 = (float)raf.readDouble();
-            float inicio = (float)raf.readDouble();
-            return (float)raf.readDouble();
+        return (float)raf.readDouble();
     }
 
     public float evalua(int i, float x) throws IOException 

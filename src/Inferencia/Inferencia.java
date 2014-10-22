@@ -6,7 +6,7 @@ public class Inferencia {
     private ManejoArchivos ma;
 
     public void MIN_MAX() throws IOException {
-        ma = new ManejoArchivos("encabezado", "reglas");
+        ma = new ManejoArchivos("encabezado_nuevo", "reglas");
         ma.leerEncabezado();
         float [] max = new float[ma.getTotReg()];
         for (int i = 0; i < max.length; i++) {

@@ -20,11 +20,11 @@ public class Base {
     RandomAccessFile archi, indice, tamaño_maestro, tamaño_indice, tam_key, encabezado;
 
     Base() throws FileNotFoundException {
-        archi = new RandomAccessFile("Reglas", "rw");
-        indice = new RandomAccessFile("indice", "rw");
-        tamaño_indice = new RandomAccessFile("tamano indice", "rw");
-        tam_key = new RandomAccessFile("key", "rw");
-        encabezado = new RandomAccessFile("encabezado", "rw");
+        archi = new RandomAccessFile("Reglas_nuevo", "rw");
+        indice = new RandomAccessFile("indice_nuevo", "rw");
+        tamaño_indice = new RandomAccessFile("tamano indice_nuevo", "rw");
+        tam_key = new RandomAccessFile("key_nuevo", "rw");
+        encabezado = new RandomAccessFile("encabezado_nuevo", "rw");
         try {
             if (tam_key.length() == 0) {
                 c = 0;
@@ -41,11 +41,12 @@ public class Base {
 
         int n, aux;
         long pos;
-
+        
         int total_ant = 0, total_con = 0;
         encabezado.seek(0);
         total_ant = encabezado.readInt();
-        encabezado.seek((5 * 40) + 4);
+        encabezado.seek((5 * 40) + 4);//para 5 variables
+        
         total_con = encabezado.readInt();
         StringBuffer buffer = null;
         System.out.println("Reglas");
@@ -103,9 +104,9 @@ public class Base {
 
         long ap_actual, ap_final;
         int contador = 0;
-        RandomAccessFile leer_archi = new RandomAccessFile("Reglas", "r");
-        RandomAccessFile es_indice = new RandomAccessFile("indice", "rw");
-        RandomAccessFile tam_key = new RandomAccessFile("key", "rw");
+        RandomAccessFile leer_archi = new RandomAccessFile("Reglas_nuevo", "r");
+        RandomAccessFile es_indice = new RandomAccessFile("indice_nuevo", "rw");
+        RandomAccessFile tam_key = new RandomAccessFile("key_nuevo", "rw");
         long lreg = es_indice.length();
         es_indice.seek(lreg);
         leer_archi.seek(punto);
@@ -123,7 +124,7 @@ public class Base {
     public void leer_secuencial_indice(boolean flag) throws FileNotFoundException, IOException {//AQUI ES DONDE LEO EL ARCHIVO INDICE
         long ap_actual, ap_final;
         int contador = 0;
-        try (RandomAccessFile leer_indice = new RandomAccessFile("indice", "r")) {
+        try (RandomAccessFile leer_indice = new RandomAccessFile("indice_nuevo", "r")) {
             while ((ap_actual = leer_indice.getFilePointer()) != (ap_final = leer_indice.length())) {
                 contador++;
                 llave = leer_indice.readInt();//EL VALOR DE LLAVE HAY QUE GUARDARLO EN EL ARBOL
@@ -146,7 +147,7 @@ public class Base {
     public void leer_todo_indice() throws FileNotFoundException, IOException {//AQUI ES DONDE LEO EL ARCHIVO INDICE
         long ap_actual, ap_final;
         int contador = 0;
-        try (RandomAccessFile leer_indice = new RandomAccessFile("indice", "r")) {
+        try (RandomAccessFile leer_indice = new RandomAccessFile("indice_nuevo", "r")) {
             while ((ap_actual = leer_indice.getFilePointer()) != (ap_final = leer_indice.length())) {
                 contador++;
                 llave = leer_indice.readInt();//EL VALOR DE LLAVE HAY QUE GUARDARLO EN EL ARBOL
@@ -166,7 +167,7 @@ public class Base {
         int validar;
         long ap_actual, ap_final;
         int k = 0;
-        RandomAccessFile leer_indice = new RandomAccessFile("indice", "r");
+        RandomAccessFile leer_indice = new RandomAccessFile("indice_nuevo", "r");
         while ((ap_actual = leer_indice.getFilePointer()) != (ap_final = leer_indice.length())) {
             validar = leer_indice.readInt();
             if (validar != 0) {
@@ -218,8 +219,8 @@ public class Base {
     }
 
     public void Borrar_Regla() throws FileNotFoundException, IOException {
-        RandomAccessFile rep_indice = new RandomAccessFile("indice", "r");
-        RandomAccessFile t = new RandomAccessFile("tamano indice", "r");
+        RandomAccessFile rep_indice = new RandomAccessFile("indice_nuevo", "r");
+        RandomAccessFile t = new RandomAccessFile("tamano indice_nuevo", "r");
         int n = t.readInt();
         System.out.println("" + n);
         int llave_[] = new int[n];
@@ -277,11 +278,11 @@ public class Base {
     }
 
     public void Borrar_Archivos() throws IOException {
-        File file_reglas = new File("Reglas");
-        File file_indice = new File("indice");
-        File file_key = new File("key");
-        File file_tamindice = new File("tamano indice");
-        File file_encabezado = new File("encabezado");
+        File file_reglas = new File("Reglas_nuevo");
+        File file_indice = new File("indice_nuevo");
+        File file_key = new File("key_nuevo");
+        File file_tamindice = new File("tamano indice_nuevo");
+        File file_encabezado = new File("encabezado_nuevo");
         archi.close();
         indice.close();
         tam_key.close();

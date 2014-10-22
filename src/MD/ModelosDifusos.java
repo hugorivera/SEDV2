@@ -4,33 +4,35 @@
  */
 package MD;
 
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import MD.ModeloDifuso;
+import java.io.*;
 import java.util.Scanner;
-
 /**
  *
- * @author Hugo
+ * @author Ramón
  */
+
+//Escribe toda la información de cada modelo difuso en el archivo "modelos difusos"
 public class ModelosDifusos {
     int llave;
     //String nom_mod,nom_eti,tipo_fun;
     //double inicio,fin,arg;
-    
+    double auxi1,auxi2;
     public void escribir_Modelo (String nom_mod, double inicio, double fin, int num_eti) throws IOException{
-        int n=1,aux=num_eti;
+        double [] puntos =new double[2];
+        int n=1,aux=num_eti,ind;
         if(num_eti>5)
             num_eti=5;
         String nom_eti,tipo_fun;
         StringBuffer buffer=null;
         System.out.println("");
-        RandomAccessFile archi=new RandomAccessFile("modelos_difusos","rw");
+        RandomAccessFile archi=new RandomAccessFile("modelos_difusos_nuevo","rw");
         long pos=archi.length();
         archi.seek(pos);
         System.out.println(pos);
-        escribe_Indice(pos);
+        ind=escribe_Indice(pos);
         Scanner entrada=new Scanner(System.in);
-        //archi.writeInt(llave);
+        archi.writeInt(ind);
         buffer=new StringBuffer(nom_mod);
         buffer.setLength(20);
         archi.writeChars(buffer.toString());
@@ -52,12 +54,14 @@ public class ModelosDifusos {
                 case "tri":
                     System.out.println("Ingresa el valor en X del punto máximo de la función");
                     arg1=entrada.nextDouble();
+                    puntos=calcula("tri", arg1,arg2,n,inicio,fin);
                     break;
                 case "tra":
                     System.out.println("Ingresa el valor en X del primer punto máximo de la función");
                     arg1=entrada.nextDouble();
                     System.out.println("Ingresa el valor en X del segundo punto máximo de la función");
                     arg2=entrada.nextDouble();
+                    puntos=calcula("tra",arg1,arg2,n,inicio,fin);
                     break;
                 case "otra":
                     break;
@@ -66,6 +70,8 @@ public class ModelosDifusos {
             archi.writeDouble(arg2);
             archi.writeDouble(arg3);
             archi.writeDouble(arg4);
+            archi.writeDouble(puntos[0]);
+            archi.writeDouble(puntos[1]);
             num_eti--;
             n++;
         }while (num_eti!=0);
@@ -82,14 +88,73 @@ public class ModelosDifusos {
                 archi.writeDouble(0);
                 archi.writeDouble(0);
                 archi.writeDouble(0);
+                archi.writeDouble(0);
+                archi.writeDouble(0);
             }
         }
         archi.close();
     }
     
-    public void escribe_Indice (long pos) throws IOException{
+    //Método para calcular el inicio de una función y su fin
+    public double [] calcula(String tipo, double arg1, double arg2, int aux, double inicio,double fin){
+        double[] res=new double[2];
+        System.out.println("Ingresa traslape en decimales");
+        Scanner entrada=new Scanner(System.in);
+        //double tras=0.45;
+        double tras=entrada.nextDouble();
+        if(aux==1){                                     //Cuando se calcula el fin de la primer función
+            if("tri".equals(tipo)){                            //Si la función es de tipo triangular
+                if(arg1==inicio){                       //Si el punto crítico de la función es cero
+                    res[0]=inicio;
+                    res[1]=(fin-inicio)*0.20;
+                    auxi1=inicio;
+                    auxi2=res[1];
+                }
+                else{                                   //Si el punto crítico de la función es diferente de cero
+                    res[0]=inicio;
+                    res[1]=2*arg1-inicio;
+                    auxi1=inicio;
+                    auxi2=res[1];
+                }
+            }
+            else{                                       //Si la función es trapezoidal
+                if(arg1==inicio){                       //Si el primer punto crítico de la función es cero
+                    res[0]=inicio;
+                    res[1]=(fin-inicio)*0.20;
+                    auxi1=inicio;
+                    auxi2=res[1];
+                }
+                else{                                   //Si el primer punto de la función es diferente de cero
+                    res[0]=inicio;
+                    res[1]=arg1-inicio+arg2;
+                    auxi1=inicio;
+                    auxi2=res[1];
+                }
+            }
+        }
+        else{                                           //Cuando se calcula una función que no sea la primera
+            if("tri".equals(tipo)){                            //Si la función es triangular
+                res[0]=auxi2-((auxi2-auxi1)/2)*tras;
+                res[1]=2*arg1-res[0];
+                auxi1=res[0];
+                auxi2=res[1];
+            }
+            else{                                       //Si la función es trapezoidal
+                res[0]=auxi2-((auxi2-auxi1)/2)*tras;
+                res[1]=arg1-res[0]+arg2;
+                auxi1=res[0];
+                auxi2=res[1];
+            }
+        }
+        System.out.println("Inicio: "+auxi1);
+        System.out.println("Fin: "+auxi2);
+        return res;
+    }
+    
+    //Escribir en el índice
+    public int escribe_Indice (long pos) throws IOException{    
         int llave;
-        RandomAccessFile indice=new RandomAccessFile("indice", "rw");
+        RandomAccessFile indice=new RandomAccessFile("indice_modelos_nuevo", "rw");
         long posi=indice.length(),aux=posi;
         if(posi==0)
             llave=1;
@@ -101,21 +166,28 @@ public class ModelosDifusos {
         indice.seek(aux);
         indice.writeInt(llave);
         indice.writeLong(pos);
+        indice.close();
+        return llave;
     }
+    
+    //Leer el índice
     public void leer_Indice() throws IOException{
         long ap_actual,ap_final;
-        RandomAccessFile archi=new RandomAccessFile("indice", "r");
+        RandomAccessFile archi=new RandomAccessFile("indice_modelos_nuevo", "r");
         while((ap_actual=archi.getFilePointer())!=(ap_final=archi.length())){
             System.out.println(archi.readInt());
             System.out.println("-"+archi.readLong()+"\n");
         }
         archi.close();
     }
+    
+    //Leer el modelo
     public void leer_Modelo () throws IOException{
         long ap_actual,ap_final;
-        RandomAccessFile archi=new RandomAccessFile("modelos_difusos", "r");
+        RandomAccessFile archi=new RandomAccessFile("modelos_difusos_nuevo", "r");
         while((ap_actual=archi.getFilePointer())!=(ap_final=archi.length())){
             char nom_mod[]=new char[20],nom_eti[]=new char[15],tipo_fun[]=new char[5],temp;
+            archi.readInt();
             String nom_m="",nom_e,tipo_f;
             for(int c=0;c<nom_mod.length;c++){
                 temp=archi.readChar();
@@ -143,9 +215,36 @@ public class ModelosDifusos {
                 for(int j=0;j<4;j++){
                     System.out.println("Argumento "+j+": "+archi.readDouble());
                 }
+                System.out.println("Inicio: "+archi.readDouble());
+                System.out.println("Fin: "+archi.readDouble());
             }
             
         }
         archi.close();
     }
-}
+
+    public ModeloDifuso buscarModelo(String modelo) throws FileNotFoundException, IOException 
+    {
+        System.out.println("Buscando: "+modelo);
+        RandomAccessFile archim=new RandomAccessFile("modelos_difusos_nuevo","rw");
+        modelo:
+        while(archim.getFilePointer()!=archim.length())
+        {
+            long posicion = archim.getFilePointer();
+            archim.readInt(); 
+            String cadena = "";
+            for (int i = 0; i < 20; i++) {
+                char c = archim.readChar();
+                cadena+=c;
+            }
+            cadena = cadena.substring(0, modelo.length());
+            System.out.println(cadena);
+            if(modelo.equals(cadena))
+                return new ModeloDifuso(archim,posicion);
+            else
+                archim.seek(archim.getFilePointer() + 8+8+(15*2 + 5*2 + 6*8)*5);
+        }
+        System.out.println("Modelo no encontrado: "+modelo+"\nVerifique que escribió bien el nombre o si la variable existe(ver modelos)");
+        return null;
+    }
+ }

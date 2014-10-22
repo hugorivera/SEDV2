@@ -16,8 +16,8 @@ public class ManejoArchivos {
         reglas = new RandomAccessFile(cReglas, "rw");
         antecedentes = new ArrayList<>();
         consecuentes = new ArrayList<>();
-        salida = new RandomAccessFile("salida_inferencia", "rw");        
-        entrada = new RandomAccessFile("entrada_inferencia", "rw");
+        salida = new RandomAccessFile("salida_inferencia_nuevo", "rw");        
+        entrada = new RandomAccessFile("entrada_inferencia_nuevo", "rw");
     }
     
     public void Escribir_Encabezado() throws FileNotFoundException, IOException {

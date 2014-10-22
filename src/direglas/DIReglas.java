@@ -16,7 +16,7 @@ public class DIReglas {
         Base b = new Base();
         Leer l = new Leer();
         Validaciones v = new Validaciones();
-        ManejoArchivos ma = new ManejoArchivos("encabezado","Reglas");
+        ManejoArchivos ma = new ManejoArchivos("encabezado_nuevo","Reglas_nuevo");
         PruebaModelosDifusos pmd=new PruebaModelosDifusos();
         Scanner scan = new Scanner(System.in);
         int opcion;

@@ -18,10 +18,11 @@ public class Leer {
 
     public void leer_aleatorio(int n) throws FileNotFoundException, IOException {
         int llave, aux;
+        
         boolean no_escribio = false;
         String res = "";
-        RandomAccessFile archi = new RandomAccessFile("Reglas", "r");
-        RandomAccessFile encabezado = new RandomAccessFile("encabezado", "r");
+        RandomAccessFile archi = new RandomAccessFile("Reglas_nuevo", "r");
+        RandomAccessFile encabezado = new RandomAccessFile("encabezado_nuevo", "r");
         int total_ant, total_con;
         encabezado.seek(0);
         total_ant = encabezado.readInt();
@@ -44,7 +45,7 @@ public class Leer {
                 res += temp_ant1;
             }
             if (no_escribio) {
-                System.out.println("encontro gato miau");
+                
             }
             System.out.print(res);
             res = "";
@@ -86,8 +87,8 @@ public class Leer {
         long lreg;
         char caracter;
         String res = "";
-        RandomAccessFile leer_archi = new RandomAccessFile("Reglas", "r");
-        RandomAccessFile encabezado = new RandomAccessFile("encabezado", "r");
+        RandomAccessFile leer_archi = new RandomAccessFile("Reglas_nuevo", "r");
+        RandomAccessFile encabezado = new RandomAccessFile("encabezado_nuevo", "r");
         int total_ant, total_con;
         encabezado.seek(0);
         total_ant = encabezado.readInt();
@@ -152,8 +153,8 @@ public class Leer {
 
     public void leer_uno() throws FileNotFoundException, IOException {
 
-        RandomAccessFile leer_archi = new RandomAccessFile("Reglas", "r");
-        RandomAccessFile encabezado = new RandomAccessFile("encabezado", "r");
+        RandomAccessFile leer_archi = new RandomAccessFile("Reglas_nuevo", "r");
+        RandomAccessFile encabezado = new RandomAccessFile("encabezado_nuevo", "r");
         int total_ant, total_con, aux;
         encabezado.seek(0);
         total_ant = encabezado.readInt();

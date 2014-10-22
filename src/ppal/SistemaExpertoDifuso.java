@@ -4,11 +4,12 @@ package ppal;
 import Desdifusificacion.Desdifusificador;
 import Inferencia.Inferencia;
 import MD.ModeloDifuso;
+import MD.ModelosDifusos;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 import sed.Difusificacion;
-import sed.ModelosDifusos;
+
 
 /**
  *
@@ -22,9 +23,9 @@ public class SistemaExpertoDifuso {
     public static void main(String[] args) throws IOException 
     {
         ModelosDifusos md=new ModelosDifusos();
-        Difusificacion dif = new Difusificacion(new File("entrada_inferencia"));
+        Difusificacion dif = new Difusificacion(new File("entrada_inferencia_nuevo"));
         Inferencia inf = new Inferencia();
-        Desdifusificador des = new Desdifusificador(new File("salida_inferencia"));
+        Desdifusificador des = new Desdifusificador(new File("salida_inferencia_nuevo"));
         Scanner entrada = new Scanner(System.in);
         String linea = "";
         

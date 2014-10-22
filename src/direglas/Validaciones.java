@@ -17,7 +17,7 @@ public class Validaciones {
 
     public boolean Validar_encabezado() {
         boolean flag;
-        encabezado = new File("encabezado");
+        encabezado = new File("encabezado_nuevo");
         if (encabezado.length()!=0) {
             flag = true;
         } else {
@@ -30,7 +30,7 @@ public class Validaciones {
 
     public boolean Validar_reglas() {
         boolean flag;
-        reglas = new File("Reglas");
+        reglas = new File("Reglas_nuevo");
         if (reglas.length() != 0) {
             flag = true;
         } else {
@@ -42,11 +42,11 @@ public class Validaciones {
 
     public boolean Validar_todo() {
         boolean flag;
-        reglas = new File("Reglas");
-        encabezado = new File("encabezado");
-        indice = new File("indice");
-        tamaño_indice = new File("tamano indice");
-        key = new File("key");
+        reglas = new File("Reglas_nuevo");
+        encabezado = new File("encabezado_nuevo");
+        indice = new File("indice_nuevo");
+        tamaño_indice = new File("tamano indice_nuevo");
+        key = new File("key_nuevo");
         if (reglas.exists() || reglas.exists() || indice.exists() || tamaño_indice.exists() || key.exists()) {
             flag = true;
         } else {
@@ -58,7 +58,7 @@ public class Validaciones {
     
     public boolean Reescribir_encabezado(){
         boolean flag;
-        encabezado = new File("encabezado");
+        encabezado = new File("encabezado_nuevo");
         if(encabezado.length()!=0){
             Scanner entrada =new Scanner(System.in);
             System.out.println("Desea reescribir el encabezado\n Si=1  No=0");
