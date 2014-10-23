@@ -1,5 +1,6 @@
 package Inferencia;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -15,8 +16,11 @@ public class ManejoArchivos {
         encabezado = new RandomAccessFile(cEncabezado, "rw");
         reglas = new RandomAccessFile(cReglas, "rw");
         antecedentes = new ArrayList<>();
-        consecuentes = new ArrayList<>();
-        salida = new RandomAccessFile("salida_inferencia_nuevo", "rw");        
+        consecuentes = new ArrayList<>();        
+        File t = new File("salida_inferencia_nuevo");
+        t.delete();
+        t.createNewFile();                
+        salida = new RandomAccessFile(t, "rw");        
         entrada = new RandomAccessFile("entrada_inferencia_nuevo", "rw");
     }
     
@@ -73,13 +77,16 @@ public class ManejoArchivos {
         encabezado.seek(0);
         int numero;
         numero = encabezado.readInt();//numero antecedentes
+        System.out.print(numero+"\t");
         for (int i = 0; i < numero; i++)
             antecedentes.add(leeUno(tamEnc, encabezado));
         encabezado.seek(encabezado.getFilePointer()+(5 - numero)*2*tamEnc);
         
         numero = encabezado.readInt();//numero consecuentes
+        System.out.print(numero+"\t");
         for (int i = 0; i < numero; i++)
             consecuentes.add(leeUno(tamEnc, encabezado));
+        System.out.println("");
     }
     
     public String[] leerRegla(int n) throws FileNotFoundException, IOException {     
@@ -104,7 +111,7 @@ public class ManejoArchivos {
             char readChar = archivo.readChar();
             variable = variable + readChar;
         }
-
+        //System.out.print(variable+"\t");
         return variable;
     }
 
@@ -127,11 +134,11 @@ public class ManejoArchivos {
         StringBuilder buffer = new StringBuilder(c);
         buffer.setLength(tamEnc);
         c = buffer.toString();
-        System.out.print(c+"\t");
+    //    System.out.print(c+"\t");
         StringBuilder buffer2 = new StringBuilder(e);
         buffer2.setLength(tamReg);
         e = buffer2.toString();
-        System.out.print(e+"\t");
+      //  System.out.print(e+"\t");
         String c1, e1;
         while(salida.getFilePointer()<salida.length()){
             c1 = leeUno(tamEnc, salida);
@@ -140,9 +147,10 @@ public class ManejoArchivos {
                 float v1 = salida.readFloat();
                 if(v>v1){
                     salida.seek(salida.getFilePointer() - 4);
-                    System.out.println(v);
+        //            System.out.println(v+"\n");
                     salida.writeFloat(v);
                 }
+                
                 return;
             }else
                 salida.seek(salida.getFilePointer() + 4);
@@ -150,7 +158,7 @@ public class ManejoArchivos {
         
         salida.writeChars(c);
         salida.writeChars(e);
-        System.out.println(v);
+        //System.out.print(v+"\n");
         salida.writeFloat(v);
     }
     
@@ -171,12 +179,14 @@ public class ManejoArchivos {
     public void imprimir() throws IOException{ 
         //Comentario;
         salida.seek(0);
+        System.out.println("Resultados de la inferencia:");
         while(salida.getFilePointer()<salida.length()){
             String c1 = leeUno(tamEnc, salida);
             String e1 = leeUno(tamReg, salida);
             float v1 = salida.readFloat();
             System.out.println(c1+" "+e1+" "+v1);
         }
+        
     }
     
 }
