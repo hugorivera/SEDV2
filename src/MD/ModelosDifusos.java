@@ -17,7 +17,7 @@ public class ModelosDifusos {
     int llave;
     //String nom_mod,nom_eti,tipo_fun;
     //double inicio,fin,arg;
-    double auxi1,auxi2;
+    double auxi1,auxi2,auxi3;
     public void escribir_Modelo (String nom_mod, double inicio, double fin, int num_eti) throws IOException{
         double [] puntos =new double[2];
         int n=1,aux=num_eti,ind;
@@ -109,26 +109,30 @@ public class ModelosDifusos {
                     res[1]=(fin-inicio)*0.20;
                     auxi1=inicio;
                     auxi2=res[1];
+                    auxi3=arg1;
                 }
                 else{                                   //Si el punto crítico de la función es diferente de cero
                     res[0]=inicio;
                     res[1]=2*arg1-inicio;
                     auxi1=inicio;
                     auxi2=res[1];
+                    auxi3=arg1;
                 }
             }
             else{                                       //Si la función es trapezoidal
                 if(arg1==inicio){                       //Si el primer punto crítico de la función es cero
                     res[0]=inicio;
-                    res[1]=(fin-inicio)*0.20;
+                    res[1]=arg2+(fin-inicio)*0.10;
                     auxi1=inicio;
                     auxi2=res[1];
+                    auxi3=arg2;
                 }
                 else{                                   //Si el primer punto de la función es diferente de cero
                     res[0]=inicio;
                     res[1]=arg1-inicio+arg2;
                     auxi1=inicio;
                     auxi2=res[1];
+                    auxi3=arg2;
                 }
             }
         }
@@ -138,12 +142,14 @@ public class ModelosDifusos {
                 res[1]=2*arg1-res[0];
                 auxi1=res[0];
                 auxi2=res[1];
+                auxi3=arg1;
             }
             else{                                       //Si la función es trapezoidal
-                res[0]=auxi2-((auxi2-auxi1)/2)*tras;
+                res[0]=auxi2-((auxi2-auxi3)*tras);
                 res[1]=arg1-res[0]+arg2;
                 auxi1=res[0];
                 auxi2=res[1];
+                auxi3=arg2;
             }
         }
         System.out.println("Inicio: "+auxi1);
