@@ -127,11 +127,11 @@ public class ManejoArchivos {
         StringBuilder buffer = new StringBuilder(c);
         buffer.setLength(tamEnc);
         c = buffer.toString();
-        
+        System.out.print(c+"\t");
         StringBuilder buffer2 = new StringBuilder(e);
         buffer2.setLength(tamReg);
         e = buffer2.toString();
-        
+        System.out.print(e+"\t");
         String c1, e1;
         while(salida.getFilePointer()<salida.length()){
             c1 = leeUno(tamEnc, salida);
@@ -140,6 +140,7 @@ public class ManejoArchivos {
                 float v1 = salida.readFloat();
                 if(v>v1){
                     salida.seek(salida.getFilePointer() - 4);
+                    System.out.println(v);
                     salida.writeFloat(v);
                 }
                 return;
@@ -149,6 +150,7 @@ public class ManejoArchivos {
         
         salida.writeChars(c);
         salida.writeChars(e);
+        System.out.println(v);
         salida.writeFloat(v);
     }
     

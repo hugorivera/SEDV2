@@ -38,6 +38,7 @@ public class Difusificacion
                 dos.writeFloat(valores[i]);
                 System.out.print(valores[i]+"\n");
             }
+        dos.flush();
     }
     
 }
